@@ -1,0 +1,7 @@
+name: ForgetfulTrialVault
+version: 1.0
+main: com.gmail.dtanjp.ForgetfulTrialVault.ForgetfulTrialVault
+api-version: '1.21'
+authors: [DTanJP]
+description: Allows players to reuse Trial Chamber Vaults
+prefix: ForgetfulTrialVault
