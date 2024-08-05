@@ -8,5 +8,4 @@ Spigot Download page: https://www.spigotmc.org/resources/forgetful-trial-vault.1
 
 ![Resetting and reusing an Ominous Trial Chamber Vault](https://github.com/DTanJP/Spigot-ForgetfulTrialVault/blob/main/media/Forgetful%20Ominous%20Trial%20Vault.gif?raw=true)
 
-(![ResetDelay](https://github.com/user-attachments/assets/1440777a-370a-46fa-b50e-131ddb6c70df)
-)
+![ResetDelay](https://github.com/user-attachments/assets/1440777a-370a-46fa-b50e-131ddb6c70df)
