@@ -1,6 +1,6 @@
 # Spigot-ForgetfulTrialVault
 A Spigot plugin to allow players to reuse Trial Chamber Vaults  
-
+Depends on Rtag plugin: https://www.spigotmc.org/resources/rtag-api-to-edit-block-entity-item-nbt-1-8-8-1-21.100694/
 
 Spigot Download page: https://www.spigotmc.org/resources/forgetful-trial-vault.117786/
 
