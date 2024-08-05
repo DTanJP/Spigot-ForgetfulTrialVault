@@ -17,7 +17,7 @@ public class VaultConfig {
 	private static FileConfiguration config = ForgetfulTrialVault.instance.getConfig();
 	
 	//Milliseconds: How long should players wait before they can reset a vault
-	public static long RESET_DELAY = 5000; //0 = no delay, allow players to spam keys
+	public static long RESET_DELAY = 0; //0 = no delay, allow players to spam keys
 	
 	//If there is a delay on the vault, should it send a message to the player letting them know how much time left
 	public static boolean PRINT_TIME_REMAINING = true;
