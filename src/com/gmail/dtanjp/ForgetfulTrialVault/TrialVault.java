@@ -119,7 +119,7 @@ public class TrialVault {
 	public void removePlayerUUID(UUID uuid) {
 		Block block = getVaultBlock();
 		if(block == null) {
-			System.out.println("Block is not a vault. No UUIDs to remove.");
+			ForgetfulTrialVault.instance.getLogger().info("Block is not a vault. No UUIDs to remove.");
 			return;
 		}
 		
@@ -307,4 +307,5 @@ public class TrialVault {
 		ForgetfulTrialVault.instance.getLogger().info("Saved "+saved+" Trial Vault instances.");
 	}
 	
+
 }
