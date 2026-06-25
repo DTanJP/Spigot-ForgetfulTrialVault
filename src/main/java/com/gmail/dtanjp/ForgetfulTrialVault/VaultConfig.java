@@ -25,7 +25,7 @@ public class VaultConfig {
 	//If any of the config is updated via commands, update the config file when server closes/reloads
 	public static boolean REQUIRES_SAVING = false;
 	
-	public final String VERSION = "1.0.1";
+	public final String VERSION = "1.0.16";
 	
 	public final static File CONFIG_FILE = new File("./plugins/ForgetfulTrialVault/config.yml");
 	

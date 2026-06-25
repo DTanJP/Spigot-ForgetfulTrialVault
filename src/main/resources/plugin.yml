@@ -1,0 +1,15 @@
+name: ${project.name}
+version: ${project.version}
+main: com.gmail.dtanjp.ForgetfulTrialVault.ForgetfulTrialVault
+api-version: "26.1"
+description: ${project.description}
+authors: [ DTanJP, CarbonatedPizza ]
+prefix: ForgetfulTrialVault
+
+depend:
+  - Rtag
+
+commands:
+  ftv:
+    description: Main command for ForgetfulTrialVault
+    usage: /ftv help
