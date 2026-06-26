@@ -1,15 +1,14 @@
-name: ${project.name}
-version: ${project.version}
+name: ForgetfulTrialVault
+version: 1.0.3.2
 main: com.gmail.dtanjp.ForgetfulTrialVault.ForgetfulTrialVault
-api-version: "26.1"
-description: ${project.description}
-authors: [ DTanJP, CarbonatedPizza ]
+api-version: '26.1.2'
+authors: [DTanJP, CarbonatedPizza]
+description: Allows players to reuse Trial Chamber Vaults
 prefix: ForgetfulTrialVault
-
-depend:
-  - Rtag
-
 commands:
-  ftv:
-    description: Main command for ForgetfulTrialVault
-    usage: /ftv help
+    ftv:
+        description: "Main command for ForgetfulTrialVault"
+        usage: "/ftv help"
+        aliases: ["ftv"]
+depend:
+    - Rtag

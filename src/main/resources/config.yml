@@ -1,3 +1,13 @@
+#English
+#Espanol
+#Francais
+#Portuguese
+#Custom
+LOCALE: "English"
+#Enable this to have the trial vaults automatically reset themselves over time
+AUTO UNLOCK: true
+#Enable this to let players know when the vaults they used has all been auto reset.
+UNLOCK NOTIFICATION: true
 #Milliseconds: How long should players wait before they can reset a vault
 #0 = no delay, allow players to spam keys
 RESET_DELAY: 0
