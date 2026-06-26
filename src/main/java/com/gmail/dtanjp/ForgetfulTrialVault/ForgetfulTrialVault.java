@@ -36,37 +36,30 @@ public class ForgetfulTrialVault extends JavaPlugin implements Listener {
 		if(!this.getDataFolder().exists())
 			this.getDataFolder().mkdirs();
 		
+		VaultConfig.EXPORT_LOCALE_FILES();
+		
 		//Generate config file if not found
 		if(!VaultConfig.CONFIG_FILE.exists()) {
-			instance.getLogger().info("Generating config file...");
+			instance.getLogger().info(VaultConfig.messages.get("GENERATION_MSG.CONFIG_FILE"));
 			saveDefaultConfig();
 		} else
 			VaultConfig.LOAD_CONFIG();
-			
 		
 		//Generate save file
 		if(!VaultConfig.VAULT_DATA_FILE.exists()) {
-			instance.getLogger().info("Generating save file...");
+			instance.getLogger().info(VaultConfig.messages.get("GENERATION_MSG.SAVE_FILE"));
 			try {
 				VaultConfig.VAULT_DATA_FILE.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
-				instance.getLogger().warning("Error: Unable to create save file.");
+				instance.getLogger().warning(VaultConfig.messages.get("GENERATION_MSG.SAVE_FILE_ERROR"));
 			}
 		}
-		
-		//Load save data once the server has finished booting up
-		BukkitRunnable runnable = new BukkitRunnable() {
+		TrialVault.LOADFILE();
+		getLogger().info("["+VaultConfig.messages.get("GENERATION_MSG.LOADED")+" "+TrialVault.VAULTS.size()+" "+VaultConfig.messages.get("GENERATION_MSG.TRIAL_VAULTS")+"]");
 
-			@Override
-			public void run() {
-				TrialVault.LOADFILE();
-				instance.getLogger().info("[LOADED "+TrialVault.VAULTS.size()+" Trial Vaults]");
-			}
-			
-		};
-		runnable.runTaskLater(instance, 1L);
 		getCommand("ftv").setExecutor(new VaultCommand());
+		AutoUnlockVault.getInstance().start();
 	}
 	
 	@Override
@@ -101,7 +94,7 @@ public class ForgetfulTrialVault extends JavaPlugin implements Listener {
 						long msTimeRemaining = (VaultConfig.RESET_DELAY - vault.getElapsedTime(uuid)); //How much time remaining until reset
 						if((msTimeRemaining) > 0) {
 							if(VaultConfig.PRINT_TIME_REMAINING) {
-								event.getPlayer().sendMessage("You must wait "+ChatColor.GREEN+VaultUtils.getWaitTimeToString(msTimeRemaining)+ChatColor.WHITE+" to reset this Trial Vault.");
+								event.getPlayer().sendMessage(VaultConfig.messages.get("VAULT_MSG.TIME_LEFT1")+ChatColor.GREEN+VaultUtils.getWaitTimeToString(msTimeRemaining)+ChatColor.WHITE+VaultConfig.messages.get("VAULT_MSG.TIME_LEFT2"));
 							}
 							return;
 						}
@@ -110,23 +103,40 @@ public class ForgetfulTrialVault extends JavaPlugin implements Listener {
     			
     			//Don't do anything while the vault is ejecting
     			if(vault.getVaultState() == State.EJECTING) {
-    				event.getPlayer().sendMessage("Please try again later. Vault is busy dispensing rewards.");
+    				event.getPlayer().sendMessage(VaultConfig.messages.get("VAULT_MSG.BUSY"));
     				return;
     			}
     			
-    			//Check if player can reset vault
-    			if(vault.canReset(uuid) && vault.hasLooted(uuid)) {
-    				vault.removePlayerUUID(uuid);
-					event.useItemInHand();
-					event.getPlayer().sendMessage(ChatColor.GREEN+"Vault has been reset.");
-					
-				//Register the player and timestamp them
-    			} else if(!vault.hasLooted(uuid) && vault.canReset(uuid) && vault.getVaultState() == State.ACTIVE) {
+    			//Register the player and timestamp them
+    			if(!vault.hasLooted(uuid)) {
     				event.useItemInHand();
-    				if(VaultConfig.RESET_DELAY > 0) {
-	    				vault.registerPlayer(uuid);
-	    				if(!TrialVault.VAULTS.containsKey(vault.location))
-	    					TrialVault.VAULTS.put(vault.location, vault);
+    				vault.registerPlayer(uuid);
+    				
+    				if(!TrialVault.VAULTS.containsKey(vault.location))
+    					TrialVault.VAULTS.put(vault.location, vault);
+    			}
+    			
+    			//Set the next auto check time
+    			if(VaultConfig.RESET_DELAY > 0) {
+    				//If auto unlock is enabled and theres no vaults registered in memory, use the reset delay for the first vault registered
+    				if(TrialVault.VAULTS.isEmpty() && VaultConfig.ENABLE_AUTO_UNLOCK && VaultConfig.RESET_DELAY > 0L)
+    					VaultConfig.NEXT_AUTO_CHECK_TIME = VaultConfig.RESET_DELAY > 1000L ? VaultConfig.RESET_DELAY/1000L : 1L;
+				} else if(VaultConfig.RESET_DELAY <= 0) {
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							vault.removePlayerUUID(uuid);
+						}
+					}.runTaskLater(ForgetfulTrialVault.instance, 1L);
+				}
+    			
+    			//Check if player can reset vault
+    			if(vault.hasLooted(uuid)) {
+    				if(vault.getElapsedTime(uuid) >= VaultConfig.RESET_DELAY || vault.getElapsedTime(uuid) == -1L) {
+    					if(vault.getVaultState() == State.INACTIVE)
+    						event.getPlayer().sendMessage(ChatColor.GREEN+VaultConfig.messages.get("VAULT_MSG.RESET"));
+	    				vault.removePlayerUUID(uuid);
+						return;
     				}
     			}
         	}

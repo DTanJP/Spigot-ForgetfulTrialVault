@@ -26,8 +26,8 @@ public class VaultUtils {
 		//days / hours/ minutes/ seconds / milliseconds
 		timer = new Long[] {(time / 86400000L), hours, minutes, seconds};
 		
-		String result = timer[0] > 0 ? timer[0]+" day"+(timer[0] > 1 ? "s" : "") : "";
-		String[] units = new String[] {"hour", "minute", "second"};
+		String result = timer[0] > 0 ? timer[0]+" "+VaultConfig.messages.get("TIME_UNIT.DAY")+(timer[0] > 1 ? "s" : "") : "";
+		String[] units = new String[] {VaultConfig.messages.get("TIME_UNIT.HOUR"), VaultConfig.messages.get("TIME_UNIT.MINUTE"), VaultConfig.messages.get("TIME_UNIT.SECOND")};
 		for(int i=1; i<timer.length; i++) {
 			if(timer[i] > 0) {
 				for(int j=0; j<i; j++) {
